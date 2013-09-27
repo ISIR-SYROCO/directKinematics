@@ -1,0 +1,14 @@
+<package>
+    <description brief="Orocos directKinematics Component package">
+        This package contains the components of the directKinematics package
+    </description>
+    <!--NOTE: set the license and author before you publish this code-->
+    <license></license>
+    <author>Unknown Author</author>
+    <depend package="rtt" />
+    <depend package="kdl" />
+    <depend package="roslib" />
+    <depend package="rtt_rosnode" />
+    <depend package="rtt_sensor_msgs"/>
+</package>
+
