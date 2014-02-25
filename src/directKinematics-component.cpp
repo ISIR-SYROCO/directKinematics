@@ -14,7 +14,7 @@ DirectKinematics::DirectKinematics(std::string const& name) : TaskContext(name)
 	this->addProperty("chain",chain)
 		.doc("the kinematic chain of the kuka robot");
 
-	this->addEventPort("inJointState", inJState)
+	this->addEventPort("JntPos_i", inJntPos)
 		.doc("joints' position from kuka robot");
 }
 //----------------------------------
@@ -54,20 +54,23 @@ void DirectKinematics::updateHook()
 	KDL::JntArray jointpositions = JntArray(nj);
 	//KDL::JntArrayVel  jointpositionsVel = JntArrayVel(nj); //vel
 
-	sensor_msgs::JointState dataJState;		//received robot joints state
-	RTT::FlowStatus fs = inJState.read(dataJState);
+	std::vector<double> dataJntPos;
+	dataJntPos.resize(nj);
+//	sensor_msgs::JointState dataJState;		//received robot joints state
+//	RTT::FlowStatus fs = inJState.read(dataJState);
+	RTT::FlowStatus fs = inJntPos.read(dataJntPos);
 
 	if(fs == RTT::NewData)
 	{
-		std::vector<double> q = dataJState.position; //dataJState.velocity  dataJState.effort
+		//std::vector<double> q = dataJState.position; //dataJState.velocity  dataJState.effort
 		//std::vector<double> qdot = dataJState.velocity; //dataJState.velocity  dataJState.effort
-		for(std::vector<double>::iterator iter = dataJState.position.begin(); iter!=dataJState.position.end(); ++iter)
-		{
-			q.push_back(*iter);
+		//for(std::vector<double>::iterator iter = dataJState.position.begin(); iter!=dataJState.position.end(); ++iter)
+		//{
+		//	q.push_back(*iter);
 			//std::cout << *iter << " ";
 
 			
-		}
+		//}
 /*
 		for(std::vector<double>::iterator iter = dataJState.velocity.begin(); iter!=dataJState.velocity.end(); ++iter)
 		{
@@ -78,7 +81,7 @@ void DirectKinematics::updateHook()
 		// Assign values to the joint positions
 		for(unsigned int i=0;i<nj;i++)
 		{
-			jointpositions(i)=q[i];
+			jointpositions(i)=dataJntPos[i];
 			//jointpositionsVel.q(i)=q[i]; //vel
 			//jointpositionsVel.qdot(i)=qdot[i]; //vel
 		}

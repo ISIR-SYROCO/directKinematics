@@ -21,7 +21,8 @@ class DirectKinematics : public RTT::TaskContext
 {
 	public:
 		KDL::Chain chain;//Definition of a kinematic chain 
- 		RTT::InputPort< sensor_msgs::JointState > inJState; //input joint state	
+ 		//RTT::InputPort< sensor_msgs::JointState > inJState; //input joint state	
+ 		RTT::InputPort< std::vector <double> > inJntPos; //input joint state	
 		RTT::OutputPort< std::vector<DirectKinematicsData> > sortie;
 		RTT::OutputPort <unsigned int> sizeChain ;
 
